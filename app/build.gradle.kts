@@ -86,4 +86,12 @@ dependencies {
     kapt(libs.google.dagger.hilt.compiler)
     //Compose + Hilt
     implementation(libs.androidx.hilt.navigation.compose)
+    //Navigation Compose
+    implementation(libs.androidx.navigation.compose)
+    //Coil
+    implementation(libs.coil.compose)
+}
+
+kapt {
+    correctErrorTypes = true
 }

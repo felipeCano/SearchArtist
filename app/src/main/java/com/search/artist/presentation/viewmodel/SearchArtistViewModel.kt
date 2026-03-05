@@ -38,7 +38,7 @@ class SearchArtistViewModel @Inject constructor(
                 val apiResult = searchArtistUseCase.execute(releaseTitle, artistName, page, perPage)
                 _searchArtist.value = apiResult
                 // } else {
-                _searchArtist.value = Resource.Error("No internet connection")
+                //_searchArtist.value = Resource.Error("No internet connection")
                 //}
             } catch (e: Exception) {
                 _searchArtist.value = Resource.Error(e.message.toString())
