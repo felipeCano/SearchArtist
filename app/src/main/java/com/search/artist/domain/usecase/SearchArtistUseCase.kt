@@ -1,17 +1,13 @@
 package com.search.artist.domain.usecase
 
-import com.search.artist.data.model.searchArtist.SearchArtistResponse
-import com.search.artist.data.util.Resource
+import androidx.paging.PagingData
 import com.search.artist.domain.repository.ArtistRepository
+import kotlinx.coroutines.flow.Flow
+import com.search.artist.data.model.searchArtist.Result
 
 class SearchArtistUseCase(private val artistRepository: ArtistRepository) {
 
-    suspend fun execute(
-        releaseTitle: String,
-        artistName: String,
-        page: Int,
-        perPage: Int = 30
-    ): Resource<SearchArtistResponse> {
-        return artistRepository.searchArtist(releaseTitle, artistName, page, perPage)
+    fun executePaging(query: String): Flow<PagingData<Result>> {
+        return artistRepository.getArtistPagingFlow(query)
     }
 }

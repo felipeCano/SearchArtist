@@ -1,11 +1,17 @@
 package com.search.artist.data.repository
 
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.search.artist.data.model.artistDetail.ArtistDetailResponse
 import com.search.artist.data.model.artistiReleases.ArtistReleasesResponse
+import com.search.artist.data.model.searchArtist.Result
 import com.search.artist.data.model.searchArtist.SearchArtistResponse
+import com.search.artist.data.paging.ArtistPagingSource
 import com.search.artist.data.repository.dataSource.ArtistRemoteDataSource
 import com.search.artist.data.util.Resource
 import com.search.artist.domain.repository.ArtistRepository
+import kotlinx.coroutines.flow.Flow
 import retrofit2.Response
 
 class ArtistRepositoryImpl(
@@ -48,6 +54,13 @@ class ArtistRepositoryImpl(
                 sortOrder = sortOrder
             )
         )
+    }
+
+    override fun getArtistPagingFlow(query: String): Flow<PagingData<Result>> {
+        return Pager(
+            config = PagingConfig(pageSize = 30, enablePlaceholders = false),
+            pagingSourceFactory = { ArtistPagingSource(this, query) }
+        ).flow
     }
 
     private fun responseToResource(response: Response<SearchArtistResponse>): Resource<SearchArtistResponse> {

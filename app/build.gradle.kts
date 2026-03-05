@@ -90,6 +90,9 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     //Coil
     implementation(libs.coil.compose)
+    //Paging
+    implementation(libs.androidx.paging.runtime.ktx)
+    implementation(libs.androidx.paging.compose)
 }
 
 kapt {

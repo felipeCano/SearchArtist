@@ -1,9 +1,12 @@
 package com.search.artist.domain.repository
 
+import androidx.paging.PagingData
 import com.search.artist.data.model.artistDetail.ArtistDetailResponse
 import com.search.artist.data.model.artistiReleases.ArtistReleasesResponse
 import com.search.artist.data.model.searchArtist.SearchArtistResponse
 import com.search.artist.data.util.Resource
+import kotlinx.coroutines.flow.Flow
+import com.search.artist.data.model.searchArtist.Result
 
 interface ArtistRepository {
 
@@ -25,4 +28,6 @@ interface ArtistRepository {
         sort: String = "year",
         sortOrder: String = "desc"
     ): Resource<ArtistReleasesResponse>
+
+    fun getArtistPagingFlow(query: String): Flow<PagingData<Result>>
 }
