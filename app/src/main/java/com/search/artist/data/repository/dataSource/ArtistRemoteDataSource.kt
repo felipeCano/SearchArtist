@@ -1,21 +1,19 @@
-package com.search.artist.domain.repository
+package com.search.artist.data.repository.dataSource
 
 import com.search.artist.data.model.artistDetail.ArtistDetailResponse
 import com.search.artist.data.model.artistiReleases.ArtistReleasesResponse
 import com.search.artist.data.model.searchArtist.SearchArtistResponse
-import com.search.artist.data.util.Resource
+import retrofit2.Response
 
-interface ArtistRepository {
+interface ArtistRemoteDataSource {
 
     suspend fun searchArtist(
         query: String,
         page: Int,
         perPage: Int = 30
-    ): Resource<SearchArtistResponse>
+    ): Response<SearchArtistResponse>
 
-    suspend fun getArtistDetail(
-        id: Int
-    ): Resource<ArtistDetailResponse>
+    suspend fun getArtistDetail(id: Int): Response<ArtistDetailResponse>
 
     suspend fun getArtistReleases(
         id: Int,
@@ -23,5 +21,5 @@ interface ArtistRepository {
         perPage: Int = 30,
         sort: String = "year",
         sortOrder: String = "desc"
-    ): Resource<ArtistReleasesResponse>
+    ): Response<ArtistReleasesResponse>
 }

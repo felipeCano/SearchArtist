@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.detekt)
+    alias(libs.plugins.google.ksp)
 }
 
 android {
@@ -61,4 +62,19 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+    //Gson
+    implementation (libs.gson)
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
+    implementation(libs.retrofit2.converter.gson)
+    //Coroutines
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.kotlinx.coroutines.android)
+    //ViewModel
+    implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    //LiveData
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+    // Annotation processor
+    ksp(libs.androidx.lifecycle.compiler)
 }

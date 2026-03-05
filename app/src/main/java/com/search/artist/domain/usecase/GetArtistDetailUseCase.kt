@@ -6,7 +6,9 @@ import com.search.artist.domain.repository.ArtistRepository
 
 class GetArtistDetailUseCase(private val artistRepository: ArtistRepository) {
 
-    suspend fun execute(id: Int): Resource<ArtistDetailResponse> {
+    suspend fun execute(
+        id: Int
+    ): Resource<ArtistDetailResponse> {
         return artistRepository.getArtistDetail(id)
     }
 }
