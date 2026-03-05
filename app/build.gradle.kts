@@ -1,15 +1,15 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    kotlin("kapt")
+    alias(libs.plugins.google.dagger.hilt)
     alias(libs.plugins.detekt)
-    alias(libs.plugins.google.ksp)
 }
 
 android {
     namespace = "com.search.artist"
-    compileSdk {
-        version = release(36)
-    }
+    compileSdk = 36
 
     defaultConfig {
         applicationId = "com.search.artist"
@@ -33,6 +33,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
     }
     buildFeatures {
         compose = true
@@ -76,5 +79,10 @@ dependencies {
     //LiveData
     implementation(libs.androidx.lifecycle.livedata.ktx)
     // Annotation processor
-    ksp(libs.androidx.lifecycle.compiler)
+    kapt(libs.androidx.lifecycle.compiler)
+    //hilt
+    implementation(libs.google.dagger.hilt)
+    kapt(libs.google.dagger.hilt.compiler)
+    //Compose + Hilt
+    implementation(libs.androidx.hilt.navigation.compose)
 }

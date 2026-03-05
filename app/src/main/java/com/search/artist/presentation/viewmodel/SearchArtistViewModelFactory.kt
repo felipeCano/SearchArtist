@@ -11,6 +11,6 @@ class SearchArtistViewModelFactory(
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return SearchArtistViewModel(searchArtistUseCase, app) as T
-            
+
     }
 }
