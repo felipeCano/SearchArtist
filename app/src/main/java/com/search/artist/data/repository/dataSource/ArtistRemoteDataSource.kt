@@ -8,7 +8,8 @@ import retrofit2.Response
 interface ArtistRemoteDataSource {
 
     suspend fun searchArtist(
-        query: String,
+        releaseTitle: String,
+        artistName: String,
         page: Int,
         perPage: Int = 30
     ): Response<SearchArtistResponse>

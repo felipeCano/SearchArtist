@@ -7,10 +7,11 @@ import com.search.artist.domain.repository.ArtistRepository
 class SearchArtistUseCase(private val artistRepository: ArtistRepository) {
 
     suspend fun execute(
-        query: String,
+        releaseTitle: String,
+        artistName: String,
         page: Int,
         perPage: Int = 30
     ): Resource<SearchArtistResponse> {
-        return artistRepository.searchArtist(query, page, perPage)
+        return artistRepository.searchArtist(releaseTitle, artistName, page, perPage)
     }
 }

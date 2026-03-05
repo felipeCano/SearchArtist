@@ -11,30 +11,36 @@ import androidx.lifecycle.viewModelScope
 import com.search.artist.data.model.searchArtist.SearchArtistResponse
 import com.search.artist.data.util.Resource
 import com.search.artist.domain.usecase.SearchArtistUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SearchArtistViewModel(
+@HiltViewModel
+class SearchArtistViewModel @Inject constructor(
     private val searchArtistUseCase: SearchArtistUseCase,
-    private val app: Application
-) : AndroidViewModel(app) {
+) : ViewModel() {
     private val _searchArtist = MutableStateFlow<Resource<SearchArtistResponse>>(Resource.Loading())
     val searchArtist = _searchArtist.asStateFlow()
 
-    fun searchArtist(query: String, page: Int, perPage: Int) {
+    fun searchArtist(
+        releaseTitle: String,
+        artistName: String,
+        page: Int,
+        perPage: Int
+    ) {
         viewModelScope.launch {
             _searchArtist.value = Resource.Loading()
             try {
 
-
-                if (isInternetAvailable(app)) {
-                    val apiResult = searchArtistUseCase.execute(query, page, perPage)
-                    _searchArtist.value = apiResult
-                } else {
-                    _searchArtist.value = Resource.Error("No internet connection")
-                }
-            }catch (e:Exception){
+                //  if (isInternetAvailable(app)) {
+                val apiResult = searchArtistUseCase.execute(releaseTitle, artistName, page, perPage)
+                _searchArtist.value = apiResult
+                // } else {
+                _searchArtist.value = Resource.Error("No internet connection")
+                //}
+            } catch (e: Exception) {
                 _searchArtist.value = Resource.Error(e.message.toString())
             }
         }

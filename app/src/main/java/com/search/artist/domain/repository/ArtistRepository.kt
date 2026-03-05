@@ -8,7 +8,8 @@ import com.search.artist.data.util.Resource
 interface ArtistRepository {
 
     suspend fun searchArtist(
-        query: String,
+        releaseTitle: String,
+        artistName: String,
         page: Int,
         perPage: Int = 30
     ): Resource<SearchArtistResponse>

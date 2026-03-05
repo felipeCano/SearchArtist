@@ -12,10 +12,10 @@ interface ArtistAPIService {
 
     @GET("database/search")
     suspend fun searchArtist(
-        @Query("q") query: String,
+        @Query("release_title") releaseTitle: String?,
+        @Query("artist") artistName: String?,
         @Query("page") page: Int,
-        @Query("per_page") perPage: Int,
-        @Query("type") type: String = "artist"
+        @Query("per_page") perPage: Int
     ): Response<SearchArtistResponse>
 
     @GET("artists/{artist_id}")

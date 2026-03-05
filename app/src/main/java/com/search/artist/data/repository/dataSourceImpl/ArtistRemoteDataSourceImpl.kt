@@ -12,11 +12,12 @@ class ArtistRemoteDataSourceImpl(
 ): ArtistRemoteDataSource {
 
     override suspend fun searchArtist(
-        query: String,
+        releaseTitle: String,
+        artistName: String,
         page: Int,
         perPage: Int
     ): Response<SearchArtistResponse> {
-        return artistAPIService.searchArtist(query,page,perPage)
+        return artistAPIService.searchArtist(releaseTitle,artistName,page,perPage)
     }
 
     override suspend fun getArtistDetail(id: Int): Response<ArtistDetailResponse> {

@@ -12,15 +12,14 @@ class ArtistRepositoryImpl(
     private val artistRemoteDataSource: ArtistRemoteDataSource
 ) : ArtistRepository {
     override suspend fun searchArtist(
-        query: String,
+        releaseTitle: String,
+        artistName: String,
         page: Int,
         perPage: Int
     ): Resource<SearchArtistResponse> {
         return responseToResource(
             artistRemoteDataSource.searchArtist(
-                query,
-                page,
-                perPage
+                releaseTitle,artistName,page,perPage
             )
         )
     }
