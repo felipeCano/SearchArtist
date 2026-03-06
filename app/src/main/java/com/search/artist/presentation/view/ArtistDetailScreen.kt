@@ -15,6 +15,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -26,6 +28,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.search.artist.data.model.artistDetail.ArtistDetailResponse
@@ -63,7 +66,7 @@ fun ArtistDetailScreen(
             }
         }
         is Resource.Error -> {
-            Text("Error: ${resource.message}",modifier)
+            InfoMessageCard("No artist information found")
         }
         is Resource.Idle -> {
         }
@@ -127,6 +130,25 @@ fun ArtistDetailContent(
             shape = MaterialTheme.shapes.medium
         ) {
             Text("View Artist Albums")
+        }
+    }
+}
+
+@Composable
+fun InfoMessageCard(message: String, modifier: Modifier = Modifier) {
+    Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+        Card(
+            modifier = Modifier
+                .padding(16.dp)
+                .fillMaxWidth(),
+            elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        ) {
+            Text(
+                text = message,
+                modifier = Modifier.padding(24.dp),
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
     }
 }
