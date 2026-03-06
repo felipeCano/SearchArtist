@@ -10,9 +10,7 @@ class GetArtistReleasesUseCase(private val artistRepository: ArtistRepository) {
         id: Int,
         page: Int,
         perPage: Int = 30,
-        sort: String = "year",
-        sortOrder: String = "desc"
     ): Resource<ArtistReleasesResponse> {
-        return artistRepository.getArtistReleases(id, page, perPage, sort, sortOrder)
+        return artistRepository.getArtistReleases(id, page, perPage, "year", "desc")
     }
 }

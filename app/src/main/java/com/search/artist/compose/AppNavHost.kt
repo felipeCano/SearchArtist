@@ -9,6 +9,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
 import com.search.artist.presentation.view.ArtistDetailScreen
+import com.search.artist.presentation.view.ArtistReleaseScreen
 import com.search.artist.presentation.view.SearchArtistScreen
 
 @Composable
@@ -31,10 +32,18 @@ fun AppNavHost(
                 type = NavType.IntType
             }
         )) { backStackEntry ->
-            val artistId = backStackEntry.arguments?.getInt("artistId")
-            ArtistDetailScreen(onNavigateToAlbums = {
-
+            val artistId = backStackEntry.arguments?.getInt("artistId") ?: 0
+            ArtistDetailScreen(onNavigateToAlbums = {artistId ->
+                navController.navigate("artist_release_screen/$artistId")
             },modifier,artistId = artistId)
+        }
+
+        composable(
+            route = "artist_release_screen/{artistId}",
+            arguments = listOf(navArgument("artistId") { type = NavType.IntType })
+        ) { backStackEntry ->
+            val artistId = backStackEntry.arguments?.getInt("artistId") ?: 0
+            ArtistReleaseScreen(artistId = artistId,modifier)
         }
     }
 }
