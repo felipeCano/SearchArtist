@@ -1,5 +1,6 @@
 package com.search.artist.presentation.view
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -35,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import com.search.artist.presentation.viewmodel.SearchArtistViewModel
@@ -42,6 +44,7 @@ import com.search.artist.data.model.searchArtist.Result
 
 @Composable
 fun SearchArtistScreen(
+    onNavigateToArtistDetail: (Int) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SearchArtistViewModel = hiltViewModel()
 ) {
@@ -59,7 +62,9 @@ fun SearchArtistScreen(
             if (pagingItems.itemCount == 0 && pagingItems.loadState.refresh is LoadState.NotLoading) {
                 EmptyStatePrompt(Modifier.align(Alignment.Center))
             } else {
-                ArtistListPaging(pagingItems)
+                ArtistListPaging(pagingItems, onArtistClick = { artistId ->
+                   onNavigateToArtistDetail(artistId)
+                })
             }
             if (pagingItems.loadState.refresh is LoadState.Loading) {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
@@ -125,7 +130,10 @@ fun EmptyStatePrompt(modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun ArtistListPaging(pagingItems: androidx.paging.compose.LazyPagingItems<Result>) {
+fun ArtistListPaging(
+    pagingItems: LazyPagingItems<Result>,
+    onArtistClick: (Int) -> Unit
+) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding = PaddingValues(16.dp),
@@ -140,17 +148,21 @@ fun ArtistListPaging(pagingItems: androidx.paging.compose.LazyPagingItems<Result
         ) { index ->
             val artist = pagingItems[index]
             if (artist != null) {
-                ArtistItem(artist = artist)
+                ArtistItem(artist = artist,onClick = { onArtistClick(artist.id) })
             }
         }
         if (pagingItems.loadState.append is LoadState.Loading) {
             item {
-                Box(Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)) {
-                    CircularProgressIndicator(Modifier
-                        .align(Alignment.Center)
-                        .size(32.dp))
+                Box(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                ) {
+                    CircularProgressIndicator(
+                        Modifier
+                            .align(Alignment.Center)
+                            .size(32.dp)
+                    )
                 }
             }
         }
@@ -158,9 +170,11 @@ fun ArtistListPaging(pagingItems: androidx.paging.compose.LazyPagingItems<Result
 }
 
 @Composable
-fun ArtistItem(artist: Result) {
+fun ArtistItem(artist: Result, onClick: () -> Unit) {
     Card(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { onClick() },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Row(
