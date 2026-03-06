@@ -32,7 +32,9 @@ fun AppNavHost(
             }
         )) { backStackEntry ->
             val artistId = backStackEntry.arguments?.getInt("artistId")
-            ArtistDetailScreen(modifier,artistId = artistId)
+            ArtistDetailScreen(onNavigateToAlbums = {
+
+            },modifier,artistId = artistId)
         }
     }
 }

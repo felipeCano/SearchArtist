@@ -191,7 +191,7 @@ fun ArtistItem(artist: Result, onClick: () -> Unit) {
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = artist.title ?: "Sin nombre",
+                text = artist.title ?: "Unnamed",
                 style = MaterialTheme.typography.titleMedium
             )
         }
