@@ -50,6 +50,7 @@ fun SearchArtistScreen(
 ) {
     val query by viewModel.searchQuery.collectAsStateWithLifecycle()
     val pagingItems = viewModel.artistPagingFlow.collectAsLazyPagingItems()
+    val isSearchStarted by viewModel.isSearchStarted.collectAsStateWithLifecycle()
 
     Column(modifier = modifier.fillMaxSize()) {
 
@@ -59,26 +60,22 @@ fun SearchArtistScreen(
             onSearchClicked = { viewModel.performSearch() }
         )
         Box(modifier = Modifier.fillMaxSize()) {
-            if (pagingItems.itemCount == 0 && pagingItems.loadState.refresh is LoadState.NotLoading) {
+
+            if (!isSearchStarted) {
                 EmptyStatePrompt(Modifier.align(Alignment.Center))
             } else {
-                ArtistListPaging(pagingItems, onArtistClick = { artistId ->
-                   onNavigateToArtistDetail(artistId)
-                })
-            }
-            if (pagingItems.loadState.refresh is LoadState.Loading) {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            }
-            if (pagingItems.loadState.refresh is LoadState.Error) {
-                val error = pagingItems.loadState.refresh as LoadState.Error
-                Text(
-                    text = "Error: ${error.error.localizedMessage}",
-                    color = Color.Red,
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .padding(16.dp),
-                    textAlign = TextAlign.Center
+                ArtistListPaging(
+                    pagingItems = pagingItems,
+                    onArtistClick = onNavigateToArtistDetail
                 )
+
+                if (pagingItems.loadState.refresh is LoadState.Loading) {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
+
+                if (pagingItems.loadState.refresh is LoadState.NotLoading && pagingItems.itemCount == 0) {
+                    Text("No results found", modifier = Modifier.align(Alignment.Center))
+                }
             }
         }
     }
@@ -117,15 +114,17 @@ fun SearchInputBar(
 @Composable
 fun EmptyStatePrompt(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier.padding(32.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
-        Text(
-            text = "Display an empty state view prompting the user to search for an artist.",
-            style = MaterialTheme.typography.bodyLarge,
-            color = Color.Gray,
-            textAlign = TextAlign.Center
+        Icon(
+            imageVector = Icons.Default.Search,
+            contentDescription = null,
+            modifier = Modifier.size(80.dp)
         )
+        Text("Search for an artist", style = MaterialTheme.typography.headlineSmall)
+        Text("Enter a name above to start fetching results", textAlign = TextAlign.Center)
     }
 }
 

@@ -18,6 +18,9 @@ class SearchArtistViewModel @Inject constructor(
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
 
+    private val _isSearchStarted = MutableStateFlow(false)
+    val isSearchStarted = _isSearchStarted.asStateFlow()
+
     private val _confirmedQuery = MutableStateFlow("")
 
     val artistPagingFlow = _confirmedQuery
@@ -27,13 +30,17 @@ class SearchArtistViewModel @Inject constructor(
         }
         .cachedIn(viewModelScope)
 
-    fun onQueryChanged(newQuery: String) {
-        _searchQuery.value = newQuery
+    fun performSearch() {
+        if (_searchQuery.value.isNotBlank()) {
+            _isSearchStarted.value = true
+            _confirmedQuery.value = _searchQuery.value
+        }
     }
 
-    fun performSearch() {
-        if (_searchQuery.value.trim().length >= 3) {
-            _confirmedQuery.value = _searchQuery.value
+    fun onQueryChanged(newQuery: String) {
+        _searchQuery.value = newQuery
+        if (newQuery.isBlank()) {
+            _isSearchStarted.value = false
         }
     }
 }
