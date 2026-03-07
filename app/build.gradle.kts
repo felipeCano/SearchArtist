@@ -93,6 +93,10 @@ dependencies {
     //Paging
     implementation(libs.androidx.paging.runtime.ktx)
     implementation(libs.androidx.paging.compose)
+    //Mocks
+    testImplementation(libs.mockk)
+    //Coroutines test
+    testImplementation(libs.kotlinx.coroutines.test)
 }
 
 kapt {
