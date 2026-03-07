@@ -25,11 +25,8 @@ class ArtistDetailViewModelTest {
 
         viewModel = ArtistDetailViewModel(useCase)
 
-        // Ejecutamos
         viewModel.loadArtistDetail(1)
 
-        // IMPORTANTE: Como usamos UnconfinedTestDispatcher,
-        // el estado se actualiza inmediatamente aquí.
         Assert.assertTrue(viewModel.uiState.value is Resource.Success)
     }
 }

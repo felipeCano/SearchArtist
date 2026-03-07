@@ -13,11 +13,21 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
+/**
+ * ViewModel responsible for managing the state and data flow for the artist releases screen.
+ * It utilizes the Android Paging 3 library to provide a stream of paginated data.
+ */
 @HiltViewModel
 class ArtistReleaseViewModel @Inject constructor(
     private val getArtistreleasesUseCase: GetArtistReleasesUseCase
 ) : ViewModel() {
 
+    /**
+     * Creates and returns a [Flow] of [PagingData] for the specified artist.
+     * The [Pager] uses the [ArtistReleasePagingSource] to fetch releases lazily.
+     * * @param artistId The unique ID of the artist whose releases are being fetched.
+     * @return A [Flow] of [PagingData] containing [Release] objects, cached in the [viewModelScope].
+     */
     fun getAlbumsPagingFlow(artistId: Int): Flow<PagingData<Release>> {
         return Pager(
             config = PagingConfig(pageSize = 30, enablePlaceholders = false),
